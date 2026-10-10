@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday! ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', 'Segoe UI', serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2b0000 0%, #800020 50%, #4a000b 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow-x: hidden;
+    }
+
+    /* Background Ambient Floating Elements */
+    .bg-balloon {
+      position: absolute;
+      font-size: 24px;
+      opacity: 0.25;
+      animation: float 6s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      100% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    .card {
+      width: 100%;
+      max-width: 400px;
+      background: rgba(40, 0, 10, 0.88);
+      border: 1px solid rgba(255, 215, 0, 0.35);
+      backdrop-filter: blur(12px);
+      border-radius: 25px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+      position: relative;
+      z-index: 2;
+    }
+
+    .hidden { display: none !important; }
+
+    /* Pop-up Animation for Page Load */
+    .popup-anim {
+      animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.6) translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    h1 {
+      color: #ffd700;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 12px rgba(255, 215, 0, 0.4);
+      letter-spacing: 0.5px;
+    }
+
+    p { color: #f8d7da; font-size: 14px; line-height: 1.5; }
+
+    /* Larger Cake & Wind Animation */
+    .cake-container {
+      position: relative;
+      font-size: 110px; /* Increased cake size */
+      margin: 20px 0 10px;
+      display: inline-block;
+      user-select: none;
+    }
+
+    .flame {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 28px;
+      transition: all 0.5s ease;
+      animation: flicker 0.8s infinite alternate;
+    }
+
+    .wind {
+      position: absolute;
+      top: 10px;
+      right: -70px;
+      font-size: 36px;
+      opacity: 0;
+      transition: all 0.8s ease;
+    }
+
+    .wind.blowing {
+      right: 15px;
+      opacity: 1;
+    }
+
+    .flame.extinguished {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-25px) scale(0);
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; transform: translateX(-50%) scale(1); }
+      100% { opacity: 0.75; transform: translateX(-50%) scale(1.15); }
+    }
+
+    /* Countdown Display */
+    .countdown {
+      font-size: 34px;
+      font-weight: bold;
+      color: #ffd700;
+      height: 42px;
+      margin: 10px 0;
+    }
+
+    /* Photo Slider */
+    .slider-container {
+      width: 100%;
+      overflow-x: auto;
+      display: flex;
+      scroll-snap-type: x mandatory;
+      gap: 15px;
+      padding: 15px 0;
+      border-radius: 15px;
+    }
+
+    .slide {
+      flex: 0 0 100%;
+      scroll-snap-align: center;
+      border-radius: 15px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 215, 0, 0.4);
+      background: #1a0005;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .slide img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .slide-caption {
+      padding: 10px;
+      font-size: 13px;
+      color: #ffd700;
+      background: #33000a;
+      font-weight: 500;
+    }
+
+    /* Deep Red Personal Letter Note */
+    .letter-box {
+      background: linear-gradient(145deg, #40000a, #200005);
+      border: 1px dashed #ffd700;
+      padding: 22px 18px;
+      border-radius: 15px;
+      text-align: left;
+      margin-top: 15px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    .letter-box p {
+      color: #fff0f2;
+      font-size: 15px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* Buttons */
+    .btn {
+      background: linear-gradient(45deg, #800020, #b3002d);
+      color: #ffd700;
+      border: 1px solid #ffd700;
+      padding: 14px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+      box-shadow: 0 5px 18px rgba(128, 0, 32, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .btn:active { transform: scale(0.96); }
+  </style>
+</head>
+<body>
+
+  <!-- Background Decorative Floating Elements -->
+  <div class="bg-balloon" style="top: 10%; left: 8%;">🎈</div>
+  <div class="bg-balloon" style="top: 15%; right: 10%; animation-delay: 1s;">✨</div>
+  <div class="bg-balloon" style="bottom: 12%; left: 12%; animation-delay: 2s;">🌹</div>
+  <div class="bg-balloon" style="bottom: 10%; right: 8%; animation-delay: 1.5s;">🎈</div>
+
+  <!-- PAGE 1: Cake, Blow Candle Animation & Countdown -->
+  <div id="page1" class="card popup-anim">
+    <h1 class="popup-anim">✨ Happy Birthday! ✨</h1>
+    <p>Blow out the candle to unlock your birthday surprise!</p>
+
+    <div class="cake-container">
+      <div id="flame" class="flame">🔥</div>
+      <div id="wind" class="wind">💨</div>
+      🎂
+    </div>
+
+    <div id="countdown" class="countdown"></div>
+
+    <button id="blowBtn" class="btn" onclick="startBlowSequence()">🌬️ Tap to Blow Candle</button>
+    <button id="nextBtn1" class="btn hidden popup-anim" onclick="showPage('page2')">See Memories ➡️</button>
+  </div>
+
+  <!-- PAGE 2: Memory Photos Slider -->
+  <div id="page2" class="card hidden">
+    <h1>📸 Beautiful Memories</h1>
+    <p>Swipe left/right to view photos ➡️</p>
+
+    <div class="slider-container">
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500" alt="Memory 1">
+        <div class="slide-caption">Forever Best Friends ✨</div>
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=500" alt="Memory 2">
+        <div class="slide-caption">Unforgettable Moments 🌹</div>
+      </div>
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500" alt="Memory 3">
+        <div class="slide-caption">Laughter & Smiles 🎉</div>
+      </div>
+    </div>
+
+    <button class="btn" onclick="showPage('page3')">Read Special Note 💌</button>
+    <button class="btn" style="background: transparent; border-color: #666; color: #ccc;" onclick="showPage('page1')">⬅️ Back to Cake</button>
+  </div>
+
+  <!-- PAGE 3: Deep Red Personal Note -->
+  <div id="page3" class="card hidden">
+    <h1 style="color: #ffd700;">💌 Personal Note</h1>
+
+    <div class="letter-box">
+      <p>
+        Dearest Shiksha,<br><br>
+        I am thankful to the Universe that we became such good friends. Receiving texts has become a rare occasion for me, perhaps everyone has their own favourite people. Perhaps, i am a poor friend. But to me u matter a lot. On this special day, I just wanted to remind you how deeply appreciated and loved you are. Thank you for bringing so much warmth, joy, and laughter into my life. u do not realise how many times u have made my days lighter just by being in them. <br><br>
+        May this year bring you endless happiness, success, and everything your heart desires. Always keep shining bright!<br><br>
+        ~ur veera<br>
+        
+      </p>
+    </div>
+
+    <button class="btn" onclick="showPage('page2')">⬅️ Back to Photos</button>
+  </div>
+
+  <script>
+    function showPage(pageId) {
+      document.getElementById('page1').classList.add('hidden');
+      document.getElementById('page2').classList.add('hidden');
+      document.getElementById('page3').classList.add('hidden');
+
+      const target = document.getElementById(pageId);
+      target.classList.remove('hidden');
+      target.classList.add('popup-anim');
+    }
+
+    function startBlowSequence() {
+      const blowBtn = document.getElementById('blowBtn');
+      const countdownEl = document.getElementById('countdown');
+      const windEl = document.getElementById('wind');
+      const flameEl = document.getElementById('flame');
+      const nextBtn1 = document.getElementById('nextBtn1');
+
+      blowBtn.style.display = 'none';
+      let count = 3;
+      countdownEl.innerText = count;
+
+      let timer = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdownEl.innerText = count;
+        } else {
+          clearInterval(timer);
+          countdownEl.innerText = "Blow! 💨";
+
+          // Trigger Air Blow Animation
+          windEl.classList.add('blowing');
+
+          setTimeout(() => {
+            // Blow Flame Out
+            flameEl.classList.add('extinguished');
+            countdownEl.innerText = "🎉 Happy Birthday! 🎉";
+
+            // Trigger Pop Confetti Animation
+            confetti({
+              particleCount: 130,
+              spread: 85,
+              origin: { y: 0.6 }
+            });
+
+            nextBtn1.classList.remove('hidden');
+          }, 800);
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
