@@ -150,7 +150,7 @@
 
     .diary-container {
       width: 100%;
-      min-height: 380px;
+      height: 350px;
       position: relative;
       transform-style: preserve-3d;
     }
@@ -160,19 +160,29 @@
       top: 0;
       left: 0;
       width: 100%;
-      min-height: 380px;
+      height: 100%;
       background: #fdf6e2;
       background-image: radial-gradient(#e0c9a6 1px, transparent 0);
       background-size: 12px 12px;
       border: 2px solid #8b5a2b;
       border-radius: 8px 18px 18px 8px;
-      padding: 18px 16px;
+      padding: 16px 14px;
       box-shadow: inset 0 0 25px rgba(139, 90, 43, 0.4), 5px 8px 15px rgba(0,0,0,0.5);
       backface-visibility: hidden;
       transform-origin: left center;
       transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
       box-sizing: border-box;
       text-align: left;
+      overflow-y: auto;
+    }
+
+    .diary-page::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .diary-page::-webkit-scrollbar-thumb {
+      background: #c29b68;
+      border-radius: 10px;
     }
 
     .diary-page::before {
@@ -198,18 +208,18 @@
     .diary-page h2 {
       font-family: 'Cinzel', serif;
       color: #5c0011;
-      font-size: 17px;
+      font-size: 16px;
       border-bottom: 1px dashed #8b5a2b;
       padding-bottom: 4px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       text-align: center;
     }
 
     .diary-page p {
       font-family: 'Dancing Script', cursive;
       color: #2b0000;
-      font-size: 16.5px;
-      line-height: 1.5;
+      font-size: 15.5px;
+      line-height: 1.45;
     }
 
     .page-number {
@@ -410,6 +420,39 @@
       }
     }
 
+    function playBlowSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const bufferSize = audioCtx.sampleRate * 0.8;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(300, audioCtx.currentTime);
+        filter.Q.setValueAtTime(1, audioCtx.currentTime);
+
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.5, audioCtx.currentTime + 0.2);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.8);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        noise.start();
+      } catch (e) {
+        console.log("Audio not supported or blocked", e);
+      }
+    }
+
     function startBlowSequence() {
       const blowBtn = document.getElementById('blowBtn');
       const countdownEl = document.getElementById('countdown');
@@ -430,6 +473,7 @@
           countdownEl.innerText = "Blow! 💨";
 
           windEl.classList.add('blowing');
+          playBlowSound();
 
           setTimeout(() => {
             flameEl.classList.add('extinguished');
