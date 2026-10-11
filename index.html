@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday! ❤️</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Cinzel:wght@600&family=Georgia&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Georgia', 'Segoe UI', serif;
     }
 
     body {
       background: linear-gradient(135deg, #2b0000 0%, #800020 50%, #4a000b 100%);
       color: #fff;
+      font-family: 'Georgia', serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -24,27 +25,14 @@
       overflow-x: hidden;
     }
 
-    /* Background Ambient Floating Elements */
-    .bg-balloon {
-      position: absolute;
-      font-size: 24px;
-      opacity: 0.25;
-      animation: float 6s ease-in-out infinite alternate;
-      pointer-events: none;
-    }
-    @keyframes float {
-      0% { transform: translateY(0px) rotate(0deg); }
-      100% { transform: translateY(-20px) rotate(10deg); }
-    }
-
     .card {
       width: 100%;
-      max-width: 400px;
+      max-width: 410px;
       background: rgba(40, 0, 10, 0.88);
       border: 1px solid rgba(255, 215, 0, 0.35);
       backdrop-filter: blur(12px);
       border-radius: 25px;
-      padding: 30px 20px;
+      padding: 25px 18px;
       text-align: center;
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
       position: relative;
@@ -53,39 +41,31 @@
 
     .hidden { display: none !important; }
 
-    /* Pop-up Animation for Page Load */
     .popup-anim {
       animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
 
     @keyframes popIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.6) translateY(20px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+      0% { opacity: 0; transform: scale(0.6) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     h1 {
       color: #ffd700;
-      font-size: 28px;
+      font-size: 26px;
       margin-bottom: 10px;
+      font-family: 'Cinzel', serif;
       text-shadow: 0 2px 12px rgba(255, 215, 0, 0.4);
-      letter-spacing: 0.5px;
     }
 
     p { color: #f8d7da; font-size: 14px; line-height: 1.5; }
 
-    /* Larger Cake & Wind Animation */
+    /* Cake & Flame Styling */
     .cake-container {
       position: relative;
-      font-size: 110px; /* Increased cake size */
+      font-size: 110px;
       margin: 20px 0 10px;
       display: inline-block;
-      user-select: none;
     }
 
     .flame {
@@ -107,10 +87,7 @@
       transition: all 0.8s ease;
     }
 
-    .wind.blowing {
-      right: 15px;
-      opacity: 1;
-    }
+    .wind.blowing { right: 15px; opacity: 1; }
 
     .flame.extinguished {
       opacity: 0;
@@ -122,12 +99,11 @@
       100% { opacity: 0.75; transform: translateX(-50%) scale(1.15); }
     }
 
-    /* Countdown Display */
     .countdown {
-      font-size: 34px;
+      font-size: 32px;
       font-weight: bold;
       color: #ffd700;
-      height: 42px;
+      height: 40px;
       margin: 10px 0;
     }
 
@@ -149,12 +125,11 @@
       overflow: hidden;
       border: 1.5px solid rgba(255, 215, 0, 0.4);
       background: #1a0005;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
     .slide img {
       width: 100%;
-      height: 240px;
+      height: 230px;
       object-fit: cover;
       display: block;
     }
@@ -164,25 +139,86 @@
       font-size: 13px;
       color: #ffd700;
       background: #33000a;
-      font-weight: 500;
     }
 
-    /* Deep Red Personal Letter Note */
-    .letter-box {
-      background: linear-gradient(145deg, #40000a, #200005);
-      border: 1px dashed #ffd700;
-      padding: 22px 18px;
-      border-radius: 15px;
+    /* ANCIENT INTERACTIVE MULTI-PAGE DIARY */
+    .diary-perspective {
+      perspective: 1400px;
+      margin: 15px auto 10px;
+      width: 100%;
+    }
+
+    .diary-container {
+      width: 100%;
+      min-height: 380px;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .diary-page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 380px;
+      background: #fdf6e2;
+      background-image: radial-gradient(#e0c9a6 1px, transparent 0);
+      background-size: 12px 12px;
+      border: 2px solid #8b5a2b;
+      border-radius: 8px 18px 18px 8px;
+      padding: 18px 16px;
+      box-shadow: inset 0 0 25px rgba(139, 90, 43, 0.4), 5px 8px 15px rgba(0,0,0,0.5);
+      backface-visibility: hidden;
+      transform-origin: left center;
+      transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+      box-sizing: border-box;
       text-align: left;
-      margin-top: 15px;
-      box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
     }
 
-    .letter-box p {
-      color: #fff0f2;
-      font-size: 15px;
-      line-height: 1.7;
-      font-style: italic;
+    .diary-page::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 12px;
+      background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
+      border-radius: 6px 0 0 6px;
+    }
+
+    .diary-page.turned {
+      transform: rotateY(-180deg);
+    }
+
+    #page-0 { z-index: 6; }
+    #page-1 { z-index: 5; }
+    #page-2 { z-index: 4; }
+    #page-3 { z-index: 3; }
+    #page-4 { z-index: 2; }
+    #page-5 { z-index: 1; }
+
+    .diary-page h2 {
+      font-family: 'Cinzel', serif;
+      color: #5c0011;
+      font-size: 17px;
+      border-bottom: 1px dashed #8b5a2b;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .diary-page p {
+      font-family: 'Dancing Script', cursive;
+      color: #2b0000;
+      font-size: 16.5px;
+      line-height: 1.5;
+    }
+
+    .page-number {
+      position: absolute;
+      bottom: 8px;
+      right: 15px;
+      font-size: 11px;
+      color: #8b5a2b;
+      font-family: 'Cinzel', serif;
     }
 
     /* Buttons */
@@ -190,31 +226,31 @@
       background: linear-gradient(45deg, #800020, #b3002d);
       color: #ffd700;
       border: 1px solid #ffd700;
-      padding: 14px 25px;
-      font-size: 16px;
+      padding: 12px 20px;
+      font-size: 15px;
       font-weight: bold;
       border-radius: 30px;
       cursor: pointer;
-      margin-top: 15px;
+      margin-top: 10px;
       width: 100%;
       box-shadow: 0 5px 18px rgba(128, 0, 32, 0.5);
       transition: all 0.3s ease;
     }
 
     .btn:active { transform: scale(0.96); }
+
+    .nav-btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Background Decorative Floating Elements -->
-  <div class="bg-balloon" style="top: 10%; left: 8%;">🎈</div>
-  <div class="bg-balloon" style="top: 15%; right: 10%; animation-delay: 1s;">✨</div>
-  <div class="bg-balloon" style="bottom: 12%; left: 12%; animation-delay: 2s;">🌹</div>
-  <div class="bg-balloon" style="bottom: 10%; right: 8%; animation-delay: 1.5s;">🎈</div>
-
-  <!-- PAGE 1: Cake, Blow Candle Animation & Countdown -->
+  <!-- PAGE 1: Cake & Blow Candle -->
   <div id="page1" class="card popup-anim">
-    <h1 class="popup-anim">✨ Happy Birthday! ✨</h1>
+    <h1>✨ Happy Birthday! ✨</h1>
     <p>Blow out the candle to unlock your birthday surprise!</p>
 
     <div class="cake-container">
@@ -249,28 +285,101 @@
       </div>
     </div>
 
-    <button class="btn" onclick="showPage('page3')">Read Special Note 💌</button>
+    <button class="btn" onclick="showPage('page3')">Open Secret Diary 📖</button>
     <button class="btn" style="background: transparent; border-color: #666; color: #ccc;" onclick="showPage('page1')">⬅️ Back to Cake</button>
   </div>
 
-  <!-- PAGE 3: Deep Red Personal Note -->
+  <!-- PAGE 3: Ancient Interactive Diary with 6 Segregated Chapters -->
   <div id="page3" class="card hidden">
-    <h1 style="color: #ffd700;">💌 Personal Note</h1>
+    <h1>📖 The Secret Diary</h1>
+    <p>Tap to turn pages through the chapters!</p>
 
-    <div class="letter-box">
-      <p>
-        Dearest Shiksha,<br><br>
-        I am thankful to the Universe that we became such good friends. Receiving texts has become a rare occasion for me, perhaps everyone has their own favourite people. Perhaps, i am a poor friend. But to me u matter a lot. On this special day, I just wanted to remind you how deeply appreciated and loved you are. Thank you for bringing so much warmth, joy, and laughter into my life. u do not realise how many times u have made my days lighter just by being in them. <br><br>
-        May this year bring you endless happiness, success, and everything your heart desires. Always keep shining bright!<br><br>
-        ~ur veera<br>
+    <div class="diary-perspective">
+      <div class="diary-container">
         
-      </p>
+        <!-- Chapter VI -->
+        <div id="page-5" class="diary-page">
+          <h2>Chapter VI: Missing You</h2>
+          <p>
+            We don't talk as much these days, and I miss you a little harder whenever I feel low and have no one to talk to.<br><br>
+            I miss you a little harder every time I remember when we used to say good morning and good night, and when I wish I had someone who just <i>gets</i> me.<br><br>
+            — Your Veera ❤️
+          </p>
+          <span class="page-number">- 6 -</span>
+        </div>
+
+        <!-- Chapter V -->
+        <div id="page-4" class="diary-page">
+          <h2>Chapter V: Promises & Wishlist</h2>
+          <p>
+            Promise me that every year, no matter where life leads us after school, you'll always find time to tie me a rakhi.<br><br>
+            Our paths may diverge, but what we mean to each other never will. (And don't worry, I still have your wishlist written in my diary, and I'm going to fulfill every bit of it!)
+          </p>
+          <span class="page-number">- 5 -</span>
+        </div>
+
+        <!-- Chapter IV -->
+        <div id="page-3" class="diary-page">
+          <h2>Chapter IV: Rare Understanding</h2>
+          <p>
+            Many people know me, but very few truly understand me—and you are one of those rare few. That makes you my good luck charm, sis.<br><br>
+            <i>Dead Poets honor!</i> Wherever life takes us, I will always be in your corner. You can confide in me without a second thought, just as I do with you.<br><br>
+            Words have their limits, but that will never change how much I value you.
+          </p>
+          <span class="page-number">- 4 -</span>
+        </div>
+
+        <!-- Chapter III -->
+        <div id="page-2" class="diary-page">
+          <h2>Chapter III: A Beautiful Trust</h2>
+          <p>
+            I know I'm not always a good friend, and maybe that's why I apologize so much. Perhaps I’ve just grown too comfortable with you.<br><br>
+            Somewhere deep inside, I believe that even after all the arguments, there will still be an <i>us</i> afterwards. Maybe that's a beautiful kind of trust—though maybe it's also something I need to treasure and handle with more care.
+          </p>
+          <span class="page-number">- 3 -</span>
+        </div>
+
+        <!-- Chapter II -->
+        <div id="page-1" class="diary-page">
+          <h2>Chapter II: Condition of Existence</h2>
+          <p>
+            “Of course you'll hurt me,<br>
+            Of course I'll hurt you,<br>
+            Of course we'll hurt each other.<br><br>
+            But perhaps this is the very condition of existence.<br>
+            To become spring means accepting the risk of winter.<br>
+            To become presence means accepting the risk of absence.”<br><br>
+            And somewhere along the way, you became a very close friend of mine—someone whose absence I would always notice.
+          </p>
+          <span class="page-number">- 2 -</span>
+        </div>
+
+        <!-- Chapter I -->
+        <div id="page-0" class="diary-page">
+          <h2>Chapter I: Happy Birthday! 🎉</h2>
+          <p>
+            Happy Birthday to one of my absolute favourite people! 🎂✨<br><br>
+            Thank you for listening to my 100th "sorry." You make so many of my days lighter just by being in them.<br><br>
+            Thank you for giving me so much of your time, for always being there to listen, and for being the incredible person you are.
+          </p>
+          <span class="page-number">- 1 -</span>
+        </div>
+
+      </div>
     </div>
 
-    <button class="btn" onclick="showPage('page2')">⬅️ Back to Photos</button>
+    <div class="nav-btn-group">
+      <button class="btn" onclick="flipPage(1)">Turn Page ➡️</button>
+      <button class="btn" style="background: #40000a;" onclick="flipPage(-1)">⬅️ Prev</button>
+    </div>
+
+    <button class="btn" style="background: transparent; border-color: #666; color: #ccc; margin-top: 8px;" onclick="showPage('page2')">⬅️ Back to Photos</button>
   </div>
 
   <script>
+    let currentPage = 0;
+    const totalPages = 6;
+
     function showPage(pageId) {
       document.getElementById('page1').classList.add('hidden');
       document.getElementById('page2').classList.add('hidden');
@@ -279,6 +388,26 @@
       const target = document.getElementById(pageId);
       target.classList.remove('hidden');
       target.classList.add('popup-anim');
+    }
+
+    function flipPage(direction) {
+      if (direction === 1 && currentPage < totalPages - 1) {
+        currentPage++;
+      } else if (direction === -1 && currentPage > 0) {
+        currentPage--;
+      }
+      updateDiary();
+    }
+
+    function updateDiary() {
+      for (let i = 0; i < totalPages; i++) {
+        const page = document.getElementById(`page-${i}`);
+        if (i < currentPage) {
+          page.classList.add('turned');
+        } else {
+          page.classList.remove('turned');
+        }
+      }
     }
 
     function startBlowSequence() {
@@ -300,15 +429,12 @@
           clearInterval(timer);
           countdownEl.innerText = "Blow! 💨";
 
-          // Trigger Air Blow Animation
           windEl.classList.add('blowing');
 
           setTimeout(() => {
-            // Blow Flame Out
             flameEl.classList.add('extinguished');
             countdownEl.innerText = "🎉 Happy Birthday! 🎉";
 
-            // Trigger Pop Confetti Animation
             confetti({
               particleCount: 130,
               spread: 85,
