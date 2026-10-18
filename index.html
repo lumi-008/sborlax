@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday! ❤️</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Cinzel:wght@600&family=Georgia&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cinzel:wght@600;700&family=Georgia&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -23,18 +23,44 @@
       align-items: center;
       padding: 15px;
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating Balloons Background */
+    .balloon-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      font-size: 30px;
+      animation: floatUp 8s linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+      100% { transform: translateY(-110vh) rotate(20deg); opacity: 0; }
     }
 
     .card {
       width: 100%;
       max-width: 410px;
-      background: rgba(40, 0, 10, 0.88);
-      border: 1px solid rgba(255, 215, 0, 0.35);
+      background: rgba(40, 0, 10, 0.92);
+      border: 1px solid rgba(255, 215, 0, 0.4);
       backdrop-filter: blur(12px);
       border-radius: 25px;
-      padding: 25px 18px;
+      padding: 22px 18px;
       text-align: center;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.15);
       position: relative;
       z-index: 2;
     }
@@ -52,20 +78,37 @@
 
     h1 {
       color: #ffd700;
-      font-size: 26px;
-      margin-bottom: 10px;
+      font-size: 25px;
+      margin-bottom: 8px;
       font-family: 'Cinzel', serif;
       text-shadow: 0 2px 12px rgba(255, 215, 0, 0.4);
     }
 
-    p { color: #f8d7da; font-size: 14px; line-height: 1.5; }
+    p { color: #f8d7da; font-size: 14px; line-height: 1.45; }
 
-    /* Cake & Flame Styling */
+    /* Cake & Interactive Effects */
+    .cake-wrapper {
+      position: relative;
+      display: inline-block;
+      margin: 15px 0 10px;
+    }
+
     .cake-container {
       position: relative;
-      font-size: 110px;
-      margin: 20px 0 10px;
+      font-size: 105px;
+      line-height: 1;
       display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .cake-container.sliced {
+      animation: cakeSlice 0.6s ease forwards;
+    }
+
+    @keyframes cakeSlice {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15) rotate(-5deg); }
+      100% { transform: scale(1); }
     }
 
     .flame {
@@ -76,6 +119,28 @@
       font-size: 28px;
       transition: all 0.5s ease;
       animation: flicker 0.8s infinite alternate;
+    }
+
+    .sparkles {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 28px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .sparkles.active {
+      opacity: 1;
+      animation: spinSparkle 1.2s infinite linear;
+    }
+
+    @keyframes spinSparkle {
+      0% { transform: translateX(-50%) rotate(0deg) scale(1); }
+      50% { transform: translateX(-50%) rotate(180deg) scale(1.3); }
+      100% { transform: translateX(-50%) rotate(360deg) scale(1); }
     }
 
     .wind {
@@ -100,11 +165,11 @@
     }
 
     .countdown {
-      font-size: 32px;
+      font-size: 30px;
       font-weight: bold;
       color: #ffd700;
-      height: 40px;
-      margin: 10px 0;
+      height: 38px;
+      margin: 8px 0;
     }
 
     /* Photo Slider */
@@ -114,7 +179,7 @@
       display: flex;
       scroll-snap-type: x mandatory;
       gap: 15px;
-      padding: 15px 0;
+      padding: 12px 0;
       border-radius: 15px;
     }
 
@@ -129,7 +194,7 @@
 
     .slide img {
       width: 100%;
-      height: 230px;
+      height: 220px;
       object-fit: cover;
       display: block;
     }
@@ -141,16 +206,16 @@
       background: #33000a;
     }
 
-    /* ANCIENT INTERACTIVE MULTI-PAGE DIARY */
+    /* Ancient Interactive Diary */
     .diary-perspective {
       perspective: 1400px;
-      margin: 15px auto 10px;
+      margin: 12px auto 8px;
       width: 100%;
     }
 
     .diary-container {
       width: 100%;
-      height: 350px;
+      height: 340px;
       position: relative;
       transform-style: preserve-3d;
     }
@@ -177,7 +242,7 @@
     }
 
     .diary-page::-webkit-scrollbar {
-      width: 5px;
+      width: 4px;
     }
 
     .diary-page::-webkit-scrollbar-thumb {
@@ -198,13 +263,6 @@
       transform: rotateY(-180deg);
     }
 
-    #page-0 { z-index: 6; }
-    #page-1 { z-index: 5; }
-    #page-2 { z-index: 4; }
-    #page-3 { z-index: 3; }
-    #page-4 { z-index: 2; }
-    #page-5 { z-index: 1; }
-
     .diary-page h2 {
       font-family: 'Cinzel', serif;
       color: #5c0011;
@@ -224,26 +282,41 @@
 
     .page-number {
       position: absolute;
-      bottom: 8px;
-      right: 15px;
+      bottom: 6px;
+      right: 12px;
       font-size: 11px;
       color: #8b5a2b;
       font-family: 'Cinzel', serif;
     }
 
-    /* Buttons */
+    /* Gift Box Unboxing */
+    .gift-box {
+      text-align: center;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .gift-icon {
+      font-size: 55px;
+      transition: transform 0.3s ease;
+      display: inline-block;
+    }
+
+    .gift-icon:hover { transform: scale(1.15) rotate(5deg); }
+
+    /* Buttons & Nav */
     .btn {
       background: linear-gradient(45deg, #800020, #b3002d);
       color: #ffd700;
       border: 1px solid #ffd700;
-      padding: 12px 20px;
-      font-size: 15px;
+      padding: 11px 18px;
+      font-size: 14.5px;
       font-weight: bold;
       border-radius: 30px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 8px;
       width: 100%;
-      box-shadow: 0 5px 18px rgba(128, 0, 32, 0.5);
+      box-shadow: 0 4px 15px rgba(128, 0, 32, 0.5);
       transition: all 0.3s ease;
     }
 
@@ -254,25 +327,55 @@
       gap: 10px;
       margin-top: 5px;
     }
+
+    /* Floating Quick Celebration Button */
+    .celebrate-fab {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 100;
+      background: #ffd700;
+      color: #5c0011;
+      border: 2px solid #fff;
+      border-radius: 50px;
+      padding: 10px 16px;
+      font-weight: bold;
+      font-size: 13px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .celebrate-fab:active { transform: scale(0.9); }
   </style>
 </head>
 <body>
 
-  <!-- PAGE 1: Cake & Blow Candle -->
+  <!-- Floating Balloons Layer -->
+  <div class="balloon-container" id="balloonContainer"></div>
+
+  <!-- Persistent Party Popper Button -->
+  <button id="celebrateFab" class="celebrate-fab">🎉 Pop Confetti</button>
+
+  <!-- PAGE 1: Cake, Candle & Cutting -->
   <div id="page1" class="card popup-anim">
     <h1>✨ Happy Birthday! ✨</h1>
-    <p>Blow out the candle to unlock your birthday surprise!</p>
+    <p>Blow out the candle to ignite your celebration!</p>
 
-    <div class="cake-container">
-      <div id="flame" class="flame">🔥</div>
-      <div id="wind" class="wind">💨</div>
-      🎂
+    <div class="cake-wrapper">
+      <div id="cake" class="cake-container">
+        <div id="flame" class="flame">🔥</div>
+        <div id="wind" class="wind">💨</div>
+        <div id="sparkles" class="sparkles">✨🌟✨</div>
+        🎂
+      </div>
     </div>
 
     <div id="countdown" class="countdown"></div>
 
-    <button id="blowBtn" class="btn" onclick="startBlowSequence()">🌬️ Tap to Blow Candle</button>
-    <button id="nextBtn1" class="btn hidden popup-anim" onclick="showPage('page2')">See Memories ➡️</button>
+    <button id="blowBtn" class="btn">🌬️ Tap to Blow Candle</button>
+    <button id="cutCakeBtn" class="btn hidden popup-anim">🔪 Cut the Cake & Play Song 🎵</button>
+    <button id="nextBtn1" class="btn hidden popup-anim">See Memories ➡️</button>
   </div>
 
   <!-- PAGE 2: Memory Photos Slider -->
@@ -295,62 +398,31 @@
       </div>
     </div>
 
-    <button class="btn" onclick="showPage('page3')">Open Secret Diary 📖</button>
-    <button class="btn" style="background: transparent; border-color: #666; color: #ccc;" onclick="showPage('page1')">⬅️ Back to Cake</button>
+    <button id="diaryBtn" class="btn">Open Secret Diary 📖</button>
+    <button id="backToCakeBtn" class="btn" style="background: transparent; border-color: #666; color: #ccc;">⬅️ Back to Cake</button>
   </div>
 
-  <!-- PAGE 3: Ancient Interactive Diary with 6 Segregated Chapters -->
+  <!-- PAGE 3: Ancient Interactive Diary -->
   <div id="page3" class="card hidden">
     <h1>📖 The Secret Diary</h1>
     <p>Tap to turn pages through the chapters!</p>
 
     <div class="diary-perspective">
-      <div class="diary-container">
+      <div class="diary-container" id="diaryContainer">
         
-        <!-- Chapter VI -->
-        <div id="page-5" class="diary-page">
-          <h2>Chapter VI: Missing You</h2>
+        <!-- Chapter I -->
+        <div class="diary-page">
+          <h2>Chapter I: Happy Birthday! 🎉</h2>
           <p>
-            We don't talk as much these days, and I miss you a little harder whenever I feel low and have no one to talk to.<br><br>
-            I miss you a little harder every time I remember when we used to say good morning and good night, and when I wish I had someone who just <i>gets</i> me.<br><br>
-            — Your Veera ❤️
+            Happy Birthday to one of my absolute favourite people! 🎂✨<br><br>
+            Thank you for listening to my 100th "sorry." You make so many of my days lighter just by being in them.<br><br>
+            Thank you for giving me so much of your time, for always being there to listen, and for being the incredible person you are.
           </p>
-          <span class="page-number">- 6 -</span>
-        </div>
-
-        <!-- Chapter V -->
-        <div id="page-4" class="diary-page">
-          <h2>Chapter V: Promises & Wishlist</h2>
-          <p>
-            Promise me that every year, no matter where life leads us after school, you'll always find time to tie me a rakhi.<br><br>
-            Our paths may diverge, but what we mean to each other never will. (And don't worry, I still have your wishlist written in my diary, and I'm going to fulfill every bit of it!)
-          </p>
-          <span class="page-number">- 5 -</span>
-        </div>
-
-        <!-- Chapter IV -->
-        <div id="page-3" class="diary-page">
-          <h2>Chapter IV: Rare Understanding</h2>
-          <p>
-            Many people know me, but very few truly understand me—and you are one of those rare few. That makes you my good luck charm, sis.<br><br>
-            <i>Dead Poets honor!</i> Wherever life takes us, I will always be in your corner. You can confide in me without a second thought, just as I do with you.<br><br>
-            Words have their limits, but that will never change how much I value you.
-          </p>
-          <span class="page-number">- 4 -</span>
-        </div>
-
-        <!-- Chapter III -->
-        <div id="page-2" class="diary-page">
-          <h2>Chapter III: A Beautiful Trust</h2>
-          <p>
-            I know I'm not always a good friend, and maybe that's why I apologize so much. Perhaps I’ve just grown too comfortable with you.<br><br>
-            Somewhere deep inside, I believe that even after all the arguments, there will still be an <i>us</i> afterwards. Maybe that's a beautiful kind of trust—though maybe it's also something I need to treasure and handle with more care.
-          </p>
-          <span class="page-number">- 3 -</span>
+          <span class="page-number">- 1 -</span>
         </div>
 
         <!-- Chapter II -->
-        <div id="page-1" class="diary-page">
+        <div class="diary-page">
           <h2>Chapter II: Condition of Existence</h2>
           <p>
             “Of course you'll hurt me,<br>
@@ -364,31 +436,106 @@
           <span class="page-number">- 2 -</span>
         </div>
 
-        <!-- Chapter I -->
-        <div id="page-0" class="diary-page">
-          <h2>Chapter I: Happy Birthday! 🎉</h2>
+        <!-- Chapter III -->
+        <div class="diary-page">
+          <h2>Chapter III: A Beautiful Trust</h2>
           <p>
-            Happy Birthday to one of my absolute favourite people! 🎂✨<br><br>
-            Thank you for listening to my 100th "sorry." You make so many of my days lighter just by being in them.<br><br>
-            Thank you for giving me so much of your time, for always being there to listen, and for being the incredible person you are.
+            I know I'm not always a good friend, and maybe that's why I apologize so much. Perhaps I’ve just grown too comfortable with you.<br><br>
+            Somewhere deep inside, I believe that even after all the arguments, there will still be an <i>us</i> afterwards. Maybe that's a beautiful kind of trust—though maybe it's also something I need to treasure and handle with more care.
           </p>
-          <span class="page-number">- 1 -</span>
+          <span class="page-number">- 3 -</span>
+        </div>
+
+        <!-- Chapter IV -->
+        <div class="diary-page">
+          <h2>Chapter IV: Rare Understanding</h2>
+          <p>
+            Many people know me, but very few truly understand me—and you are one of those rare few. That makes you my good luck charm, sis.<br><br>
+            <i>Dead Poets honor!</i> Wherever life takes us, I will always be in your corner. You can confide in me without a second thought, just as I do with you.<br><br>
+            Words have their limits, but that will never change how much I value you.
+          </p>
+          <span class="page-number">- 4 -</span>
+        </div>
+
+        <!-- Chapter V -->
+        <div class="diary-page">
+          <h2>Chapter V: Promises & Wishlist</h2>
+          <p>
+            Promise me that every year, no matter where life leads us after school, you'll always find time to tie me a rakhi.<br><br>
+            Our paths may diverge, but what we mean to each other never will. (And don't worry, I still have your wishlist written in my diary, and I'm going to fulfill every bit of it!)
+          </p>
+          <span class="page-number">- 5 -</span>
+        </div>
+
+        <!-- Chapter VI -->
+        <div class="diary-page">
+          <h2>Chapter VI: Missing You</h2>
+          <p>
+            We don't talk as much these days, and I miss you a little harder whenever I feel low and have no one to talk to.<br><br>
+            I miss you a little harder every time I remember when we used to say good morning and good night, and when I wish I had someone who just <i>gets</i> me.<br><br>
+            — Your Veera ❤️
+          </p>
+
+          <div id="giftBox" class="gift-box">
+            <div id="giftIcon" class="gift-icon">🎁</div>
+            <p id="giftText" style="font-size: 12px; color: #8b5a2b; margin-top: 4px;">Tap your birthday surprise gift!</p>
+          </div>
+
+          <span class="page-number">- 6 -</span>
         </div>
 
       </div>
     </div>
 
     <div class="nav-btn-group">
-      <button class="btn" onclick="flipPage(1)">Turn Page ➡️</button>
-      <button class="btn" style="background: #40000a;" onclick="flipPage(-1)">⬅️ Prev</button>
+      <button id="nextPageBtn" class="btn">Turn Page ➡️</button>
+      <button id="prevPageBtn" class="btn" style="background: #40000a;">⬅️ Prev</button>
     </div>
 
-    <button class="btn" style="background: transparent; border-color: #666; color: #ccc; margin-top: 8px;" onclick="showPage('page2')">⬅️ Back to Photos</button>
+    <button id="backToPhotosBtn" class="btn" style="background: transparent; border-color: #666; color: #ccc; margin-top: 8px;">⬅️ Back to Photos</button>
   </div>
-
-  <script>
+    <script>
     let currentPage = 0;
-    const totalPages = 6;
+    let pages = [];
+    let audioCtx = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      pages = Array.from(document.querySelectorAll('.diary-page'));
+      updateDiarySequence();
+      createBalloons();
+
+      document.getElementById('blowBtn').addEventListener('click', startBlowSequence);
+      document.getElementById('cutCakeBtn').addEventListener('click', cutCake);
+      document.getElementById('nextBtn1').addEventListener('click', () => showPage('page2'));
+      document.getElementById('diaryBtn').addEventListener('click', () => showPage('page3'));
+      document.getElementById('backToCakeBtn').addEventListener('click', () => showPage('page1'));
+      document.getElementById('nextPageBtn').addEventListener('click', () => flipPage(1));
+      document.getElementById('prevPageBtn').addEventListener('click', () => flipPage(-1));
+      document.getElementById('backToPhotosBtn').addEventListener('click', () => showPage('page2'));
+      document.getElementById('celebrateFab').addEventListener('click', triggerPartyPopper);
+      document.getElementById('giftBox').addEventListener('click', openGift);
+    });
+
+    function updateDiarySequence() {
+      pages.forEach((page, index) => {
+        if (index < currentPage) {
+          page.classList.add('turned');
+          page.style.zIndex = index + 1;
+        } else {
+          page.classList.remove('turned');
+          page.style.zIndex = pages.length - index;
+        }
+      });
+    }
+
+    function flipPage(direction) {
+      if (direction === 1 && currentPage < pages.length - 1) {
+        currentPage++;
+      } else if (direction === -1 && currentPage > 0) {
+        currentPage--;
+      }
+      updateDiarySequence();
+    }
 
     function showPage(pageId) {
       document.getElementById('page1').classList.add('hidden');
@@ -400,29 +547,29 @@
       target.classList.add('popup-anim');
     }
 
-    function flipPage(direction) {
-      if (direction === 1 && currentPage < totalPages - 1) {
-        currentPage++;
-      } else if (direction === -1 && currentPage > 0) {
-        currentPage--;
+    function createBalloons() {
+      const container = document.getElementById('balloonContainer');
+      const emojis = ['🎈', '✨', '🎂', '🥳', '💖', '🎁'];
+      for (let i = 0; i < 15; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        balloon.style.left = Math.random() * 95 + 'vw';
+        balloon.style.animationDelay = Math.random() * 5 + 's';
+        balloon.style.animationDuration = (6 + Math.random() * 4) + 's';
+        container.appendChild(balloon);
       }
-      updateDiary();
     }
 
-    function updateDiary() {
-      for (let i = 0; i < totalPages; i++) {
-        const page = document.getElementById(`page-${i}`);
-        if (i < currentPage) {
-          page.classList.add('turned');
-        } else {
-          page.classList.remove('turned');
-        }
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
     }
 
     function playBlowSound() {
+      initAudio();
       try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const bufferSize = audioCtx.sampleRate * 0.8;
         const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
@@ -453,12 +600,38 @@
       }
     }
 
+    function playBirthdaySong() {
+      initAudio();
+      const notes = [
+        { f: 264, d: 0.3 }, { f: 264, d: 0.3 }, { f: 297, d: 0.6 }, { f: 264, d: 0.6 }, { f: 352, d: 0.6 }, { f: 330, d: 1.0 },
+        { f: 264, d: 0.3 }, { f: 264, d: 0.3 }, { f: 297, d: 0.6 }, { f: 264, d: 0.6 }, { f: 396, d: 0.6 }, { f: 352, d: 1.0 }
+      ];
+
+      let time = audioCtx.currentTime;
+      notes.forEach(note => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(note.f, time);
+
+        gain.gain.setValueAtTime(0.15, time);
+        gain.gain.exponentialRampToValueAtTime(0.001, time + note.d);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start(time);
+        osc.stop(time + note.d);
+        time += note.d + 0.05;
+      });
+    }
+
     function startBlowSequence() {
       const blowBtn = document.getElementById('blowBtn');
       const countdownEl = document.getElementById('countdown');
       const windEl = document.getElementById('wind');
       const flameEl = document.getElementById('flame');
-      const nextBtn1 = document.getElementById('nextBtn1');
+      const cutCakeBtn = document.getElementById('cutCakeBtn');
 
       blowBtn.style.display = 'none';
       let count = 3;
@@ -477,18 +650,53 @@
 
           setTimeout(() => {
             flameEl.classList.add('extinguished');
-            countdownEl.innerText = "🎉 Happy Birthday! 🎉";
+            countdownEl.innerText = "🎉 Wish Granted! 🎉";
 
-            confetti({
-              particleCount: 130,
-              spread: 85,
-              origin: { y: 0.6 }
-            });
-
-            nextBtn1.classList.remove('hidden');
+            triggerPartyPopper();
+            cutCakeBtn.classList.remove('hidden');
           }, 800);
         }
       }, 1000);
+    }
+
+    function cutCake() {
+      const cake = document.getElementById('cake');
+      const sparkles = document.getElementById('sparkles');
+      const cutCakeBtn = document.getElementById('cutCakeBtn');
+      const nextBtn1 = document.getElementById('nextBtn1');
+      const countdownEl = document.getElementById('countdown');
+
+      cake.classList.add('sliced');
+      sparkles.classList.add('active');
+      cutCakeBtn.style.display = 'none';
+      countdownEl.innerText = "🍰 Cake Cut! Enjoy!";
+
+      playBirthdaySong();
+      triggerPartyPopper();
+
+      setTimeout(() => {
+        nextBtn1.classList.remove('hidden');
+      }, 1200);
+    }
+
+    function triggerPartyPopper() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    function openGift() {
+      initAudio();
+      const giftIcon = document.getElementById('giftIcon');
+      const giftText = document.getElementById('giftText');
+      giftIcon.innerText = "💖✨";
+      giftText.innerHTML = "<b>Surprise!</b> Endless love & blessings always! 🥳🎉";
+
+      triggerPartyPopper();
     }
   </script>
 </body>
