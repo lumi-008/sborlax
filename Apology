@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I'm Truly Sorry... ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Cinzel:wght@600;700&family=Georgia&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a0005 0%, #4a000b 50%, #2b0000 100%);
+      color: #f8d7da;
+      font-family: 'Georgia', serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow-x: hidden;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(30, 0, 8, 0.94);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 26px 20px;
+      text-align: center;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.8), 0 0 20px rgba(128, 0, 32, 0.3);
+      position: relative;
+      z-index: 2;
+    }
+
+    .hidden { display: none !important; }
+
+    .fade-in {
+      animation: fadeIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.9) translateY(15px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    h1 {
+      color: #ffd700;
+      font-size: 24px;
+      margin-bottom: 12px;
+      font-family: 'Cinzel', serif;
+      text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+    }
+
+    p { 
+      font-size: 14.5px; 
+      line-height: 1.6; 
+      color: #f1d1d4;
+    }
+
+    /* Letter Container Styling */
+    .letter-box {
+      background: #fdf6e2;
+      background-image: radial-gradient(#e0c9a6 1px, transparent 0);
+      background-size: 12px 12px;
+      border: 2px solid #8b5a2b;
+      border-radius: 12px;
+      padding: 20px 16px;
+      margin: 15px 0;
+      box-shadow: inset 0 0 20px rgba(139, 90, 43, 0.3), 0 5px 15px rgba(0,0,0,0.4);
+      text-align: left;
+      max-height: 340px;
+      overflow-y: auto;
+    }
+
+    .letter-box::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .letter-box::-webkit-scrollbar-thumb {
+      background: #c29b68;
+      border-radius: 10px;
+    }
+
+    .letter-box p {
+      font-family: 'Dancing Script', cursive;
+      color: #2b0000;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    /* Buttons */
+    .btn {
+      background: linear-gradient(45deg, #800020, #b3002d);
+      color: #ffd700;
+      border: 1px solid #ffd700;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      margin-top: 12px;
+      width: 100%;
+      box-shadow: 0 5px 18px rgba(128, 0, 32, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .btn:active { transform: scale(0.96); }
+
+    .btn-secondary {
+      background: transparent;
+      border-color: #777;
+      color: #bbb;
+      margin-top: 8px;
+      box-shadow: none;
+    }
+
+    .response-container {
+      margin-top: 15px;
+      font-family: 'Dancing Script', cursive;
+      font-size: 20px;
+      color: #ffd700;
+      min-height: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VIEW 1: Opening Note -->
+  <div id="view1" class="card fade-in">
+    <h1>I Need to Tell You Something...</h1>
+    <p style="margin: 15px 0;">I know things haven't been right between us, and it weighs heavy on my heart. I made mistakes, and I am truly, deeply sorry.</p>
+    <button id="openLetterBtn" class="btn">Read My Apology ✉️</button>
+  </div>
+
+  <!-- VIEW 2: The Core Apology Letter -->
+  <div id="view2" class="card hidden">
+    <h1>From My Heart</h1>
+    
+    <div class="letter-box">
+      <p>
+        I know I'm not always a good friend, and maybe that's why I apologize so much. Perhaps I’ve just grown too comfortable with you, taking your presence for granted.<br><br>
+        “Of course you'll hurt me,<br>
+        Of course I'll hurt you,<br>
+        Of course we'll hurt each other.<br>
+        But perhaps this is the very condition of existence.<br>
+        To become spring means accepting the risk of winter.<br>
+        To become presence means accepting the risk of absence.”<br><br>
+        We’ve hurt each other, and that breaks my heart because losing you or drifting away is something I never want to face. You mean too much to me.<br><br>
+        Please forgive me for my flaws and for the times I let you down.<br><br>
+        — Always yours ❤️
+      </p>
+    </div>
+
+    <button id="forgiveBtn" class="btn">Can you forgive me? 🤝</button>
+    <button id="backBtn" class="btn btn-secondary">⬅️ Back</button>
+
+    <div id="responseMsg" class="response-container"></div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const view1 = document.getElementById('view1');
+      const view2 = document.getElementById('view2');
+      const openLetterBtn = document.getElementById('openLetterBtn');
+      const forgiveBtn = document.getElementById('forgiveBtn');
+      const backBtn = document.getElementById('backBtn');
+      const responseMsg = document.getElementById('responseMsg');
+
+      openLetterBtn.addEventListener('click', () => {
+        view1.classList.add('hidden');
+        view2.classList.remove('hidden');
+        view2.classList.add('fade-in');
+      });
+
+      backBtn.addEventListener('click', () => {
+        view2.classList.add('hidden');
+        view1.classList.remove('hidden');
+        view1.classList.add('fade-in');
+        responseMsg.innerText = "";
+      });
+
+      forgiveBtn.addEventListener('click', () => {
+        const messages = [
+          "Thank you for having such a kind and forgiving heart. I promise to do better. ❤️",
+          "Your understanding means everything to me. I won't take you for granted. ✨",
+          "Thank you for staying. We'll get through this together. 🫂"
+        ];
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        responseMsg.innerText = randomMsg;
+      });
+    });
+  </script>
+</body>
+</html>
